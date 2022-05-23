@@ -1,0 +1,28 @@
+@tokens
+%token LB 
+%token RB 
+%token Comma 
+%token Colon
+%token Fun  
+%stoken Name 
+
+@attributes
+%attr value  | Tree
+%attr args   | [Tree]
+
+@parser 
+
+%Main 
+  : Fun Name LB Args RB Type | value = Node "Kotlin Function" ((label #4) + 1) ([Leaf "fun" (label #1), Leaf (value #2) (label #2), Leaf "(" (label #3), Node "Arguments" (label #4) (args #4), Leaf ")" (label #5)] ++ (args #6))
+
+%Type
+  : Colon Name | args = [Leaf ":" (label #1), Leaf (value #2) (label #2)]
+  : Eps        | args = []
+
+%Args 
+  : Name Colon Name OthArgs | args = [Node "Argument" ((label #4) + 2) [Leaf (value #1) (label #1), Leaf ":" (label #2), Leaf (value #3) (label #3)], Node "Other Arguments" (label #4) (if (args #4) == [] then [Leaf "Eps" ((label #4) + 1)] else (args #4))]
+  : Eps                     | args = []
+
+%OthArgs
+  : Comma Args | args = (args #2)
+  : Eps        | args = [] 

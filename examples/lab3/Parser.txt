@@ -1,0 +1,60 @@
+@tokens
+%token LeftP 
+%token RightP 
+%token Impl 
+%token Col
+%token Equal 
+%token Case 
+%token Of 
+%token If 
+%token Then 
+%token Else
+%stoken TypeS  
+%stoken VarS 
+%stoken NumS
+
+@attributes
+%attr value  | String 
+%attr args   | [String]
+
+@parser 
+
+%Main
+  : VarS Col Type VarS Params Equal Fun         | value = (getFunctionType (reverse (args #3)) ((length (args #3)) - (length (args #5)))) ++ " " ++ (value #1) ++ "(" ++ (showArgs (getArgTypes (args #3) (min ((length (args #3)) - 1) (length (args #5)))) (args #5)) ++ ")" ++ " {\n" ++ (value #7) ++ "\n}" 
+
+%Type
+  : TypeS Type1                  | args = [value #1] ++ (args #2)  
+
+%Type1 
+  : Impl Type                    | args = (args #2)
+  : Eps                          | args = []
+
+%Params 
+  : VarS Params                  | args = [value #1] ++ (args #2)
+  : Eps                          | args = []
+
+%FunArg
+  : VarS                         | value = (value #1)
+  : NumS                         | value = (value #1)
+  : LeftP VarS FunArgs RightP    | value = (value #2) ++ "(" ++ showList' (args #3) ++ ")"
+
+%FunArg1
+  : VarS FunArgs                 | value = (value #1) ++ "(" ++ showList' (args #2) ++ ")"
+ 
+%FunArg2
+  : VarS                                               | value = (value #1)
+  : NumS                                               | value = (value #1)
+  : VarS FunArgs                                       | value = (value #1) ++ "(" ++ showList' (args #2) ++ ")"
+  : LeftP If FunArg1 Then FunArg2 Else FunArg2 RightP  | value = "((" ++ (value #3) ++ ") ? " ++ (value #5) ++ " ; " ++ (value #7) ++ ")"
+
+%FunArgs
+  : FunArg FunArgs               | args = [value #1] ++ (args #2)
+  : Eps                          | args = []
+
+%Fun 
+  : VarS FunArgs                                       | value = "return " ++ (value #1) ++ "(" ++ showList' (args #2) ++ ")" 
+  : If FunArg1 Then FunArg2 Else FunArg2               | value = "return " ++ "(" ++ (value #2) ++ ") ? " ++ (value #4)  ++ " ; " ++ (value #6) 
+  : NumS                                               | value = "return " ++ (value #1)
+  : VarS                                               | value = "return " ++ (value #1)
+
+

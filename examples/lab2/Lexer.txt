@@ -1,0 +1,6 @@
+  @ (   | LB
+  @ )   | RB
+  @ ,   | Comma
+  @ :   | Colon
+  @ fun | Fun
+  $ !alpha | !alpha !digit | Name

@@ -1,0 +1,7 @@
+  @ (   | LB
+  @ )   | RB
+  @ +   | Plus 
+  @ -   | Minus
+  @ *   | Star 
+  @ /   | Slash
+  $ !digit | !digit | Digit

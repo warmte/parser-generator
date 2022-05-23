@@ -1,0 +1,33 @@
+cabal-version:      2.4
+name:               lab4
+version:            0.1.0.0
+
+author:             Ilona Bozhe
+maintainer:         warmte00@gmail.com
+
+extra-source-files: CHANGELOG.md
+
+executable gen
+    main-is:          Main.hs
+    build-depends:    directory, lab4, base ^>=4.15.0.0
+    hs-source-dirs:   app
+    default-language: Haskell2010
+
+executable parser
+    main-is:          Main.hs
+    other-modules:    Graph 
+    -- build-depends:    transformers, lab4, base ^>=4.15.0.0
+    build-depends:    transformers, graphviz, lab4, fgl, text, base ^>=4.15.0.0
+    hs-source-dirs:   parser
+    default-language: Haskell2010
+
+-- executable test
+--     main-is:          Main.hs
+--     build-depends:    transformers, tasty-hspec, tasty, hspec, lab4, base ^>=4.15.0.0
+--     hs-source-dirs:   test
+--     default-language: Haskell2010
+
+library 
+    exposed-modules: Grammar.Lexer, Grammar.Parser, Grammar.Grammar, Parsing.Lexer, Parsing.Parser, Parsing.Grammar, GEN.Lexer, GEN.Parser, GEN.Utils, GEN.Grammar
+    hs-source-dirs:  src
+    build-depends:   array, transformers, containers, base ^>= 4.15.0.0

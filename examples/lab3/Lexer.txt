@@ -1,0 +1,13 @@
+  @ (      | LeftP
+  @ )      | RightP
+  @ ->     | Impl
+  @ ::     | Col 
+  @ =      | Equal
+  @ case   | Case 
+  @ of     | Of 
+  @ if     | If 
+  @ then   | Then 
+  @ else   | Else 
+  $ !upper | !alpha !digit | TypeS
+  $ !lower | !alpha !digit | VarS
+  $ !digit | !digit        | NumS

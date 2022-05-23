@@ -1,0 +1,34 @@
+@tokens
+%token LB 
+%token RB 
+%token Plus 
+%token Minus
+%token Star 
+%token Slash
+%stoken Digit 
+
+@attributes
+%attr value | Double
+
+@parser 
+
+%Main
+  : T E1       | value = (value #1) + (value #2)
+
+%E1 
+  : Plus T E1  | value = (value #2) + (value #3)
+  : Minus T E1 | value = - (value #2) + (value #3)
+  : Eps        | value = 0
+
+%T 
+  : F T1       | value = (value #1) * (value #2)
+
+%T1 
+  : Star F T1  | value = (value #2) * (value #3)
+  : Slash F T1 | value = (1.0 / (value #2)) * (value #3)
+  : Eps        | value = 1
+
+%F 
+  : Digit      | value = atoi $ value #1
+  : LB Main RB | value = (value #2)
+

@@ -1,0 +1,15 @@
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE LambdaCase #-}
+module GEN.Parser where
+
+import Control.Monad.Trans.State ( State, StateT(StateT) )
+import Data.Functor.Identity ()
+import Control.Monad.Trans.State.Lazy ()
+import Control.Monad.Trans.Except (ExceptT (ExceptT), runExceptT, Except, except, runExcept)
+import Control.Applicative ()
+import Control.Monad (mfilter, MonadPlus, unless)
+import Data.Char (isSpace)
+import GEN.Utils (Parser(..), ParseError(..), LToken (..), Token (..), runP)
+import GEN.Lexer (pToken, nextToken, parseError, pEof)
+import GEN.Grammar

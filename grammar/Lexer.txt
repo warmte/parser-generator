@@ -1,0 +1,8 @@
+  @ (   | LB
+  @ )   | RB
+  @ +   | Plus 
+  @ -   | Minus
+  @ *   | Star 
+  @ /   | Slash
+  @ ^   | Degree
+  $ !digit | !digit | Digit
